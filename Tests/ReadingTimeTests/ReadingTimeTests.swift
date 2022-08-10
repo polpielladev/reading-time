@@ -20,7 +20,7 @@ final class ReadingTimeTests: XCTestCase {
         let testFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("test.md")
         try "Hello World! This is my article!".data(using: .utf8)!.write(to: testFileURL)
         
-        let calculatedTime = ReadingTime.calculate(for: testFileURL)
+        let calculatedTime = try ReadingTime.calculate(for: testFileURL)
         
         XCTAssertEqual(calculatedTime, 1358.49)
 
@@ -32,11 +32,19 @@ final class ReadingTimeTests: XCTestCase {
         let testFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("test.md")
         try "Hello World! This is my article!".data(using: .utf8)!.write(to: testFileURL)
         
-        let calculatedTime = ReadingTime.calculate(for: testFileURL, wpm: 1)
+        let calculatedTime = try ReadingTime.calculate(for: testFileURL, wpm: 1)
         
         XCTAssertEqual(calculatedTime, 360000.0)
 
         // Clean up
         try FileManager.default.removeItem(at: testFileURL)
+    }
+    
+    func test_GivenInvalidURLIsCreated_WhenFileURLIsProvided_ThenErrorIsThrown() throws {
+        let testFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("test.md")
+        
+        XCTAssertThrowsError(try ReadingTime.calculate(for: testFileURL)) { error in
+            XCTAssertEqual(error as? ReadingTimeError, .fileNotFound)
+        }
     }
 }

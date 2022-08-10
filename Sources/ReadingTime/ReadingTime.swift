@@ -1,5 +1,9 @@
 import Foundation
 
+public enum ReadingTimeError: Error {
+    case fileNotFound
+}
+
 public enum ReadingTime {
     public static func calculate(for content: String, wpm: Int = 265) -> TimeInterval {
         let characterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
@@ -11,7 +15,10 @@ public enum ReadingTime {
         return round(timeIntervalInMilliseconds * 100) / 100.0
     }
     
-    public static func calculate(for file: URL, wpm: Int = 265) -> TimeInterval {
+    public static func calculate(for file: URL, wpm: Int = 265) throws -> TimeInterval {
+        if !FileManager.default.fileExists(atPath: file.path) {
+            throw ReadingTimeError.fileNotFound
+        }
         let contentsOfFile = FileManager.default.contents(atPath: file.path)!
         let string = String(data: contentsOfFile, encoding: .utf8)!
         
