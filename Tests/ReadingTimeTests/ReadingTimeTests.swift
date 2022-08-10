@@ -13,7 +13,7 @@ final class ReadingTimeTests: XCTestCase {
         let contents = "Hello World! This is my article!"
         let calculatedTime = ReadingTime.calculate(for: contents, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 360000.0)
+        XCTAssertEqual(calculatedTime, 360000)
     }
     
     func test_WhenInputStringContainsEmojis_ThenTheyAreNotCountedAsWords() throws {
@@ -21,7 +21,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = ReadingTime.calculate(for: contents, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 360000.0)
+        XCTAssertEqual(calculatedTime, 360000)
     }
     
     func test_GivenDefaultWPMIsUsed_WhenFileURLIsProvided_ThenReadingTimeIsReturned() throws {
@@ -42,7 +42,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = try ReadingTime.calculate(for: testFileURL, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 360000.0)
+        XCTAssertEqual(calculatedTime, 360000)
 
         // Clean up
         try FileManager.default.removeItem(at: testFileURL)
@@ -54,5 +54,13 @@ final class ReadingTimeTests: XCTestCase {
         XCTAssertThrowsError(try ReadingTime.calculate(for: testFileURL)) { error in
             XCTAssertEqual(error as? ReadingTimeError, .fileNotFound)
         }
+    }
+    
+    func test_GivenAMarkdownStringWithImages_WhenReadingTimeIsCalculated_ThenImagesAreComputedAsOneSecondEach() throws {
+        let textWithImage = "![my nice image](/public/assets/my-nice-image.png) ![my other image](/public/assets/my-other-image)"
+        
+        let calculatedTime = ReadingTime.calculate(for: textWithImage, wpm: 1)
+        
+        XCTAssertEqual(calculatedTime, 2000)
     }
 }
