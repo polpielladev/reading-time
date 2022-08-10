@@ -1,11 +1,21 @@
 import XCTest
 import ReadingTime
+import Markdown
+
+struct Rewriter: MarkupRewriter {
+    func visitImage(_ image: Image) -> Markup? {
+        return nil
+    }
+}
 
 struct MarkdownRewriter {
     let text: String
     
     func rewrite() -> String {
-        ""
+        let document = Document(parsing: text)
+        var rewriter = Rewriter()
+        let updatedDocument = rewriter.visitDocument(document)
+        return updatedDocument!.format()
     }
 }
 
