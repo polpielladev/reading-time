@@ -8,7 +8,8 @@ public enum ReadingTimeError: Error {
 public enum ReadingTime {
     public static func calculate(for content: String, wpm: Int = 265) -> TimeInterval {
         let characterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
-        let components = content.components(separatedBy: characterSet)
+        let contentWithoutEmojis = content.removingEmoji
+        let components = contentWithoutEmojis.components(separatedBy: characterSet)
         let words = components.filter { !$0.isEmpty }
         let timeIntervalInMinutes = Double(words.count) / Double(wpm)
         let timeIntervalInMilliseconds = timeIntervalInMinutes * 60 * 1000
@@ -29,4 +30,17 @@ public enum ReadingTime {
         
         return Self.calculate(for: string, wpm: wpm)
     }
+}
+
+// Some useful extensions to deal with removing emojis 🔝
+// https://stackoverflow.com/a/68853348
+extension Character {
+    var isEmoji: Bool { unicodeScalars.first?.properties.isEmoji == true && !isDigit }
+    var isDigit: Bool { "0"..."9" ~= self }
+    var isNotEmoji: Bool { !isEmoji }
+}
+
+extension RangeReplaceableCollection where Self: StringProtocol {
+    var removingEmoji: Self  { filter(\.isNotEmoji) }
+    var emojis: Self  { filter(\.isEmoji) }
 }

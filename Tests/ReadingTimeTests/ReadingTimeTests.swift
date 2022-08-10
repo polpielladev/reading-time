@@ -16,6 +16,14 @@ final class ReadingTimeTests: XCTestCase {
         XCTAssertEqual(calculatedTime, 360000.0)
     }
     
+    func test_WhenInputStringContainsEmojis_ThenTheyAreNotCountedAsWords() throws {
+        let contents = "👋 Hello World! 🌍 This is my article! 🗞"
+        
+        let calculatedTime = ReadingTime.calculate(for: contents, wpm: 1)
+        
+        XCTAssertEqual(calculatedTime, 360000.0)
+    }
+    
     func test_GivenDefaultWPMIsUsed_WhenFileURLIsProvided_ThenReadingTimeIsReturned() throws {
         let testFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("test.md")
         try "Hello World! This is my article!".data(using: .utf8)!.write(to: testFileURL)
