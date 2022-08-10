@@ -3,7 +3,13 @@ import XCTest
 
 enum ReadingTime {
     static func calculate(for content: String) -> TimeInterval {
-        1358.49
+        let chararacterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
+        let components = content.components(separatedBy: chararacterSet)
+        let words = components.filter { !$0.isEmpty }
+        let timeIntervalInMinutes = Double(words.count) / 265.0
+        let timeIntervalInMilliseconds = timeIntervalInMinutes * 60 * 1000
+
+        return round(timeIntervalInMilliseconds * 100) / 100.0
     }
 }
 
