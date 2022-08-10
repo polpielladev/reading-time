@@ -56,11 +56,19 @@ final class ReadingTimeTests: XCTestCase {
         }
     }
     
-    func test_GivenAMarkdownStringWithImages_WhenReadingTimeIsCalculated_ThenImagesAreComputedAsOneSecondEach() throws {
+    func test_GivenAMarkdownStringWithImages_WhenReadingTimeIsCalculated_ThenImagesAreComputedAsOneSecondEach() {
         let textWithImage = "![my nice image](/public/assets/my-nice-image.png) ![my other image](/public/assets/my-other-image)"
         
         let calculatedTime = ReadingTime.calculate(for: textWithImage, wpm: 1)
         
         XCTAssertEqual(calculatedTime, 2000)
+    }
+    
+    func test_GivenAMarkdownStringWithLinks_WhenReadingTimeIsCalculated_ThenOnlyLinkTitlesAreComputedTowardsWordCount() {
+        let textWithLink = "[My Super Twitter Profile](https://twitter.com/polpielladev)"
+        
+        let calculatedTime = ReadingTime.calculate(for: textWithLink, wpm: 1)
+        
+        XCTAssertEqual(calculatedTime, 240000.0)
     }
 }
