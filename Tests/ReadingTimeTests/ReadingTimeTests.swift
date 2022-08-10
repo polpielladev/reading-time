@@ -24,5 +24,7 @@ final class ReadingTimeTests: XCTestCase {
     func test_GivenCustomWPMIsUsed_WhenContentsOfAFileAreProvider_ThenReadingTimeIsReturned() {
         let contents = "Hello World! This is my article!"
         let calculatedTime = ReadingTime.calculate(for: contents, wpm: 1)
+        
+        XCTAssertEqual(calculatedTime, 360000.0)
     }
 }
