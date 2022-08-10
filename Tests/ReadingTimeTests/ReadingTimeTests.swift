@@ -20,8 +20,10 @@ final class ReadingTimeTests: XCTestCase {
         let testFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("test.md")
         try "Hello World! This is my article!".data(using: .utf8)!.write(to: testFileURL)
         
-        let readingTime = ReadingTime.calculate(for: testFileURL)
+        let calculatedTime = ReadingTime.calculate(for: testFileURL)
         
+        XCTAssertEqual(calculatedTime, 1358.49)
+
         // Clean up
         try FileManager.default.removeItem(at: testFileURL)
     }

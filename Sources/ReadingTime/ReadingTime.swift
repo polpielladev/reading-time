@@ -12,6 +12,9 @@ public enum ReadingTime {
     }
     
     public static func calculate(for file: URL, wpm: Int = 265) -> TimeInterval {
-        return 0
+        let contentsOfFile = FileManager.default.contents(atPath: file.path)!
+        let string = String(data: contentsOfFile, encoding: .utf8)!
+        
+        return Self.calculate(for: string, wpm: wpm)
     }
 }
