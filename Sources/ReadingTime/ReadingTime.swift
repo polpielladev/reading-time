@@ -2,6 +2,7 @@ import Foundation
 
 public enum ReadingTimeError: Error {
     case fileNotFound
+    case fileCouldNotBeDecoded
 }
 
 public enum ReadingTime {
@@ -11,7 +12,7 @@ public enum ReadingTime {
         let words = components.filter { !$0.isEmpty }
         let timeIntervalInMinutes = Double(words.count) / Double(wpm)
         let timeIntervalInMilliseconds = timeIntervalInMinutes * 60 * 1000
-
+        
         return round(timeIntervalInMilliseconds * 100) / 100.0
     }
     
@@ -19,8 +20,12 @@ public enum ReadingTime {
         if !FileManager.default.fileExists(atPath: file.path) {
             throw ReadingTimeError.fileNotFound
         }
-        let contentsOfFile = FileManager.default.contents(atPath: file.path)!
-        let string = String(data: contentsOfFile, encoding: .utf8)!
+        
+        guard let contentsOfFile = FileManager.default.contents(atPath: file.path),
+              let string = String(data: contentsOfFile, encoding: .utf8) else {
+            throw ReadingTimeError.fileCouldNotBeDecoded
+        }
+        
         
         return Self.calculate(for: string, wpm: wpm)
     }
