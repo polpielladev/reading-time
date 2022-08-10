@@ -4,8 +4,8 @@ import ReadingTime
 struct MarkdownRewriter {
     let text: String
     
-    func rewrite() {
-        
+    func rewrite() -> String {
+        ""
     }
 }
 
@@ -15,5 +15,7 @@ class MarkdownRewriterTests: XCTestCase {
         
         let textWithNoImages = MarkdownRewriter(text: textWithImage)
             .rewrite()
+    
+        XCTAssertEqual(textWithNoImages, "")
     }
 }
