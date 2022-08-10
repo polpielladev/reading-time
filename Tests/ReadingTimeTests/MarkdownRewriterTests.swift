@@ -19,4 +19,13 @@ class MarkdownRewriterTests: XCTestCase {
         
         XCTAssertEqual(imageCount, 2)
     }
+    
+    func test_GivenAMarkdownStringWithLinks_ThenOnlyLinkTextIsKept() {
+        let textWithLinks = "[Pol Piella](https://www.polpiella.dev/about)"
+        
+        let (rewrittenText, _) = MarkdownRewriter(text: textWithLinks)
+            .rewrite()
+        
+        XCTAssertEqual("Pol Piella", rewrittenText)
+    }
 }

@@ -8,6 +8,12 @@ struct Rewriter: MarkupRewriter {
         
         return nil
     }
+    
+    func visitLink(_ link: Link) -> Markup? {
+        guard let linkTitle = link.children.first(where: { $0 is Text }) else { return link }
+        
+        return linkTitle
+    }
 }
 
 public struct MarkdownRewriter {
