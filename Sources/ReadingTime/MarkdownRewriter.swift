@@ -1,7 +1,11 @@
 import Markdown
 
 struct Rewriter: MarkupRewriter {
-    func visitImage(_ image: Image) -> Markup? {
+    var imageCount = 0
+    
+    mutating func visitImage(_ image: Image) -> Markup? {
+        imageCount += 1
+        
         return nil
     }
 }
@@ -13,10 +17,10 @@ public struct MarkdownRewriter {
         self.text = text
     }
     
-    public func rewrite() -> String {
+    public func rewrite() -> (String, Int) {
         let document = Document(parsing: text)
         var rewriter = Rewriter()
         let updatedDocument = rewriter.visitDocument(document)
-        return updatedDocument!.format()
+        return (updatedDocument!.format(), rewriter.imageCount)
     }
 }
