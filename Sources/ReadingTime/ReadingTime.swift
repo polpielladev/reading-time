@@ -10,4 +10,8 @@ public enum ReadingTime {
 
         return round(timeIntervalInMilliseconds * 100) / 100.0
     }
+    
+    public static func calculate(for file: URL, wpm: Int = 265) -> TimeInterval {
+        return 0
+    }
 }
