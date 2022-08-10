@@ -3,6 +3,10 @@ import ReadingTime
 
 struct MarkdownRewriter {
     let text: String
+    
+    func rewrite() {
+        
+    }
 }
 
 class MarkdownRewriterTests: XCTestCase {
@@ -10,5 +14,6 @@ class MarkdownRewriterTests: XCTestCase {
         let textWithImage = "![my nice image](/public/assets/my-nice-image.png)"
         
         let textWithNoImages = MarkdownRewriter(text: textWithImage)
+            .rewrite()
     }
 }
