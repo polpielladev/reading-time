@@ -23,6 +23,8 @@ let package = Package(
             dependencies: [.product(name: "Markdown", package: "swift-markdown")]),
         .testTarget(
             name: "ReadingTimeTests",
-            dependencies: ["ReadingTime"]),
+            dependencies: ["ReadingTime"],
+            resources: [.copy("MockData")]
+        ),
     ]
 )

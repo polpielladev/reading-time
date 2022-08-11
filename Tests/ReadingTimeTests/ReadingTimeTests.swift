@@ -71,4 +71,12 @@ final class ReadingTimeTests: XCTestCase {
         
         XCTAssertEqual(calculatedTime, 240000.0)
     }
+    
+    func test_GivenAMarkdownTestFile_WhenReadingTimeIsCalculated_ThenTimeIsCorrect() throws {
+        let fileURL = Bundle.module.url(forResource: "test", withExtension: "md", subdirectory: "MockData")!
+        
+        let calculatedTime = try ReadingTime.calculate(for: fileURL)
+        
+        XCTAssertEqual(calculatedTime, 502200)
+    }
 }
