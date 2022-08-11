@@ -50,6 +50,6 @@ let calculatedTime = try ReadingTime.calculate(for: fileURL)
 
 ## Other notes
 
-🤗 This package is completely open-source.
-🐛 If you notice any bugs or have any feature requests please file an issue.
-✍️ If you want to support me (the author of this package), feel free to follow me on [twitter](https://pol.link/twitter)! 
+* 🤗 This package is completely open-source.
+* 🐛 If you notice any bugs or have any feature requests please file an issue.
+* ✍️ If you want to support me (the author of this package), feel free to follow me on [twitter](https://pol.link/twitter)! 
