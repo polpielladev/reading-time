@@ -6,7 +6,7 @@ final class ReadingTimeTests: XCTestCase {
         let contents = "Hello World! This is my article!"
         let calculatedTime = ReadingTime.calculate(for: contents)
         
-        XCTAssertEqual(calculatedTime, 1358.49)
+        XCTAssertEqual(calculatedTime, 1800)
     }
     
     func test_GivenCustomWPMIsUsed_WhenContentsOfAFileAreProvided_ThenReadingTimeIsReturned() {
@@ -30,7 +30,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = try ReadingTime.calculate(for: testFileURL)
         
-        XCTAssertEqual(calculatedTime, 1358.49)
+        XCTAssertEqual(calculatedTime, 1800)
 
         // Clean up
         try FileManager.default.removeItem(at: testFileURL)
