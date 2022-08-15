@@ -7,14 +7,14 @@ public enum ReadingTimeError: Error {
 
 public enum ReadingTime {
     public static func calculate(for content: String, wpm: Int = 200) -> TimeInterval {
-        let (rewrittenMarkdown, imageCount) = MarkdownRewriter(text: content)
+        let rewrittenMarkdown = MarkdownRewriter(text: content)
             .rewrite()
         let characterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
         let contentWithoutEmojis = rewrittenMarkdown.removingEmoji
         let components = contentWithoutEmojis.components(separatedBy: characterSet)
         let words = components.filter { !$0.isEmpty }
         let timeIntervalInMinutes = Double(words.count) / Double(wpm)
-        let timeIntervalInMilliseconds = timeIntervalInMinutes * 60 * 1000 + (Double(imageCount * 1000))
+        let timeIntervalInMilliseconds = timeIntervalInMinutes * 60 * 1000
         
         return round(timeIntervalInMilliseconds * 100) / 100.0
     }
