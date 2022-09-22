@@ -24,7 +24,7 @@ import ReadingTime
 
 ## Usage
 
-The API for ReadingTime is very simple. It consists of an enum called `ReadingTime` and two variants of a static method `calculate`. The calculation returns an estimate of the reading time for the provided markdown content in milliseconds.
+The API for ReadingTime is very simple. It consists of an enum called `ReadingTime` and two variants of a static method `calculate`. The calculation returns an estimate of the reading time for the provided markdown content in seconds.
 
 It is important to note that the calculation does not count emojis as words, markdown images add a second each to the total reading time and that markdown links only count the words in the title and not the URL.
 
@@ -34,7 +34,7 @@ To calculate the reading time for a given string, use the `calculate(for content
 
 ```swift
 let contents = "👋 Hello World! 🌍 This is my article! 🗞"
-let calculatedTime = ReadingTime.calculate(for: contents) // Returns a TimeInterval type in milliseconds
+let calculatedTime = ReadingTime.calculate(for: contents) // Returns a TimeInterval type in seconds
 ```
 
 ### Calculating reading time for a file 
