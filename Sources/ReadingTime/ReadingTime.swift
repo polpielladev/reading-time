@@ -14,9 +14,9 @@ public enum ReadingTime {
         let components = contentWithoutEmojis.components(separatedBy: characterSet)
         let words = components.filter { !$0.isEmpty }
         let timeIntervalInMinutes = Double(words.count) / Double(wpm)
-        let timeIntervalInMilliseconds = timeIntervalInMinutes * 60 * 1000
+        let timeIntervalInSeconds = timeIntervalInMinutes * 60
         
-        return round(timeIntervalInMilliseconds * 100) / 100.0
+        return round(timeIntervalInSeconds)
     }
     
     public static func calculate(for file: URL, wpm: Int = 200) throws -> TimeInterval {

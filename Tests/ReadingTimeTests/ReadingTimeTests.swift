@@ -6,14 +6,14 @@ final class ReadingTimeTests: XCTestCase {
         let contents = "Hello World! This is my article!"
         let calculatedTime = ReadingTime.calculate(for: contents)
         
-        XCTAssertEqual(calculatedTime, 1800)
+        XCTAssertEqual(calculatedTime, 2)
     }
     
     func test_GivenCustomWPMIsUsed_WhenContentsOfAFileAreProvided_ThenReadingTimeIsReturned() {
         let contents = "Hello World! This is my article!"
         let calculatedTime = ReadingTime.calculate(for: contents, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 360000)
+        XCTAssertEqual(calculatedTime, 360)
     }
     
     func test_WhenInputStringContainsEmojis_ThenTheyAreNotCountedAsWords() throws {
@@ -21,7 +21,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = ReadingTime.calculate(for: contents, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 360000)
+        XCTAssertEqual(calculatedTime, 360)
     }
     
     func test_GivenDefaultWPMIsUsed_WhenFileURLIsProvided_ThenReadingTimeIsReturned() throws {
@@ -30,7 +30,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = try ReadingTime.calculate(for: testFileURL)
         
-        XCTAssertEqual(calculatedTime, 1800)
+        XCTAssertEqual(calculatedTime, 2)
 
         // Clean up
         try FileManager.default.removeItem(at: testFileURL)
@@ -42,7 +42,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = try ReadingTime.calculate(for: testFileURL, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 360000)
+        XCTAssertEqual(calculatedTime, 360)
 
         // Clean up
         try FileManager.default.removeItem(at: testFileURL)
@@ -69,7 +69,7 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = ReadingTime.calculate(for: textWithLink, wpm: 1)
         
-        XCTAssertEqual(calculatedTime, 240000.0)
+        XCTAssertEqual(calculatedTime, 240)
     }
     
     func test_GivenAMarkdownTestFile_WhenReadingTimeIsCalculated_ThenTimeIsCorrect() throws {
@@ -77,6 +77,6 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = try ReadingTime.calculate(for: fileURL)
         
-        XCTAssertEqual(calculatedTime, 499200)
+        XCTAssertEqual(calculatedTime, 499)
     }
 }
