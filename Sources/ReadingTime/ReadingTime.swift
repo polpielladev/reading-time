@@ -9,11 +9,8 @@ public enum ReadingTime {
     public static func calculate(for content: String, wpm: Int = 200) -> TimeInterval {
         let rewrittenMarkdown = MarkdownRewriter(text: content)
             .rewrite()
-        let characterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
         let contentWithoutEmojis = rewrittenMarkdown.removingEmoji
-        let components = contentWithoutEmojis.components(separatedBy: characterSet)
-        let words = components.filter { !$0.isEmpty }
-        let timeIntervalInMinutes = Double(words.count) / Double(wpm)
+        let timeIntervalInMinutes = Double(count(wordsIn: contentWithoutEmojis)) / Double(wpm)
         let timeIntervalInSeconds = timeIntervalInMinutes * 60
         
         return round(timeIntervalInSeconds)
@@ -31,6 +28,15 @@ public enum ReadingTime {
         
         
         return Self.calculate(for: string, wpm: wpm)
+    }
+    
+    private static func count(wordsIn string: String) -> Int {
+        var count = 0
+        let range = string.startIndex..<string.endIndex
+        string.enumerateSubstrings(in: range, options: [.byWords, .substringNotRequired, .localized], { _, _, _, _ -> () in
+            count += 1
+        })
+        return count
     }
 }
 

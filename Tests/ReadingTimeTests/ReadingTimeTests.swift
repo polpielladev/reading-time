@@ -77,6 +77,6 @@ final class ReadingTimeTests: XCTestCase {
         
         let calculatedTime = try ReadingTime.calculate(for: fileURL)
         
-        XCTAssertEqual(calculatedTime, 499)
+        XCTAssertEqual(calculatedTime, 480)
     }
 }
