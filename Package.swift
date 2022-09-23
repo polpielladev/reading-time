@@ -10,7 +10,8 @@ let package = Package(
             targets: ["ReadingTime"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-markdown.git", branch: "main")
+        .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
+        .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.1.0"),
     ],
     targets: [
         .target(
@@ -21,6 +22,9 @@ let package = Package(
             dependencies: ["ReadingTime"],
             resources: [.copy("MockData")]
         ),
-        .executableTarget(name: "ReadingTimeLambda", dependencies: [])
+        .executableTarget(name: "ReadingTimeLambda", dependencies: [
+            .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
+            .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime")
+        ])
     ]
 )
