@@ -40,6 +40,10 @@ let package = Package(
             swiftSettings: [
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
             ]
+        ),
+        .executableTarget(
+            name: "ReadingTimeSiteRunner",
+            dependencies: ["ReadingTimeSite"]
         )
     ]
 )
