@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "ReadingTime",
-    platforms: [.iOS(.v8), .macOS(.v10_13)],
+    platforms: [.iOS(.v8), .macOS(.v10_15)],
     products: [
         .library(
             name: "ReadingTime",
@@ -29,6 +29,17 @@ let package = Package(
             .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
             "ReadingTime"
-        ])
+        ]),
+        .target(
+            name: "ReadingTimeSite",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                "ReadingTime",
+                "Plot"
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
+            ]
+        )
     ]
 )
