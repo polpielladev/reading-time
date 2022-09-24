@@ -16,6 +16,8 @@ public enum ReadingTime {
         return round(timeIntervalInSeconds)
     }
     
+    #if !arch(wasm32)
+    
     public static func calculate(for file: URL, wpm: Int = 200) throws -> TimeInterval {
         if !FileManager.default.fileExists(atPath: file.path) {
             throw ReadingTimeError.fileNotFound
@@ -30,6 +32,16 @@ public enum ReadingTime {
         return Self.calculate(for: string, wpm: wpm)
     }
     
+    #endif
+    
+    #if arch(wasm32)
+    
+    private static func count(wordsIn string: String) -> Int {
+        return 3
+    }
+    
+    #else
+    
     private static func count(wordsIn string: String) -> Int {
         var count = 0
         let range = string.startIndex..<string.endIndex
@@ -38,6 +50,8 @@ public enum ReadingTime {
         })
         return count
     }
+
+    #endif
 }
 
 // Some useful extensions to deal with removing emojis 🔝
