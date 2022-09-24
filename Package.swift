@@ -34,8 +34,8 @@ let package = Package(
             name: "ReadingTimeSite",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                "ReadingTime",
-                "Plot"
+                .product(name: "Plot", package: "plot"),
+                "ReadingTime"
             ],
             swiftSettings: [
                 .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
