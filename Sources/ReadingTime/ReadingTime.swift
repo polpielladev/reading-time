@@ -6,6 +6,11 @@ public enum ReadingTimeError: Error {
 }
 
 public enum ReadingTime {
+    #if arch(wasm32)
+    public static func calculate(for content: String, wpm: Int = 200) -> TimeInterval {
+        return 20
+    }
+    #else
     public static func calculate(for content: String, wpm: Int = 200) -> TimeInterval {
         let rewrittenMarkdown = MarkdownRewriter(text: content)
             .rewrite()
@@ -15,7 +20,8 @@ public enum ReadingTime {
         
         return round(timeIntervalInSeconds)
     }
-    
+    #endif
+        
     #if !arch(wasm32)
     
     public static func calculate(for file: URL, wpm: Int = 200) throws -> TimeInterval {
