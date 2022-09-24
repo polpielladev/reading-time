@@ -12,6 +12,9 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
         .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.1.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+        .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0")
+
     ],
     targets: [
         .target(
