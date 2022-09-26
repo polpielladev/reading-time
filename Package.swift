@@ -14,7 +14,7 @@ let package = Package(
         .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.1.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0"),
-        .package(url: "https://github.com/danger/swift.git", from: "1.0.0")
+        .package(url: "https://github.com/danger/swift.git", from: "3.12.1"),
     ],
     targets: [
         .target(
@@ -25,7 +25,7 @@ let package = Package(
             dependencies: ["ReadingTime"],
             resources: [.copy("MockData")]
         ),
-        .target(name: "DangerDependencies", dependencies: [.product(name: "Danger", package: "swift")]),
+        .target(name: "DangerDeps", dependencies: [.product(name: "Danger", package: "danger-swift")]),
         .executableTarget(name: "ReadingTimeLambda", dependencies: [
             .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
