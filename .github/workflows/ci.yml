@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  run-danger:
+    name: Run Danger
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install danger-js
+      run: brew install danger/tap/danger-js
+    - run: swift test
+    - run: swift run danger-swift ci --verbose --failOnErrors
+      if: ${{ github.event_name == 'pull_request' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

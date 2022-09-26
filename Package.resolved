@@ -28,12 +28,48 @@
       }
     },
     {
+      "identity" : "files",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/Files.git",
+      "state" : {
+        "revision" : "a84615f4558151fab52ac38df697ce2442991f93",
+        "version" : "2.3.0"
+      }
+    },
+    {
+      "identity" : "logger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shibapm/Logger",
+      "state" : {
+        "revision" : "53c3ecca5abe8cf46697e33901ee774236d94cce",
+        "version" : "0.2.3"
+      }
+    },
+    {
+      "identity" : "marathon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/Marathon",
+      "state" : {
+        "revision" : "35b672e05ac411fb104e462fbfd6541f995abc17",
+        "version" : "3.3.0"
+      }
+    },
+    {
       "identity" : "multipart-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/multipart-kit.git",
       "state" : {
         "revision" : "0d55c35e788451ee27222783c7d363cb88092fab",
         "version" : "4.5.2"
+      }
+    },
+    {
+      "identity" : "octokit.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nerdishbynature/octokit.swift",
+      "state" : {
+        "revision" : "9521cdff919053868ab13cd08a228f7bc1bde2a9",
+        "version" : "0.11.0"
       }
     },
     {
@@ -46,12 +82,57 @@
       }
     },
     {
+      "identity" : "releases",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/Releases.git",
+      "state" : {
+        "revision" : "ea62f33a429185b0ed21344c2355862c5bc4fcce",
+        "version" : "4.0.0"
+      }
+    },
+    {
+      "identity" : "requestkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nerdishbynature/RequestKit.git",
+      "state" : {
+        "revision" : "fd5e9e99aada7432170366c9e95967011ce13bad",
+        "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "require",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/Require.git",
+      "state" : {
+        "revision" : "7cfbd0d8a2dede0e01f6f0d8ab2c7acef1df112e",
+        "version" : "2.0.1"
+      }
+    },
+    {
       "identity" : "routing-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/routing-kit.git",
       "state" : {
         "revision" : "ffac7b3a127ce1e85fb232f1a6271164628809ad",
         "version" : "4.6.0"
+      }
+    },
+    {
+      "identity" : "shellout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/ShellOut.git",
+      "state" : {
+        "revision" : "e1577acf2b6e90086d01a6d5e2b8efdaae033568",
+        "version" : "2.3.0"
+      }
+    },
+    {
+      "identity" : "swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danger/swift.git",
+      "state" : {
+        "revision" : "33d35bf94f54155be505ffecfca745e4cc1cd0cc",
+        "version" : "1.6.5"
       }
     },
     {
