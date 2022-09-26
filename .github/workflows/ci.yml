@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   run-danger:
+    permissions: write-all
     name: Run Danger
     runs-on: macos-12
     steps:
