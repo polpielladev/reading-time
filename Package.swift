@@ -25,7 +25,7 @@ let package = Package(
             dependencies: ["ReadingTime"],
             resources: [.copy("MockData")]
         ),
-        .target(name: "DangerDeps", dependencies: [.product(name: "Danger", package: "danger-swift")]),
+        .target(name: "DangerDeps", dependencies: [.product(name: "Danger", package: "swift")]),
         .executableTarget(name: "ReadingTimeLambda", dependencies: [
             .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
