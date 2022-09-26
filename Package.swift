@@ -8,6 +8,10 @@ let package = Package(
         .library(
             name: "ReadingTime",
             targets: ["ReadingTime"]),
+        .library(
+            name: "DangerDeps",
+            type: .dynamic,
+            targets: ["DangerDeps"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
