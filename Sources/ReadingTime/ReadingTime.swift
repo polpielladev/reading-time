@@ -13,6 +13,19 @@ public enum ReadingTime {
         let timeIntervalInMinutes = Double(count(wordsIn: contentWithoutEmojis)) / Double(wpm)
         let timeIntervalInSeconds = timeIntervalInMinutes * 60
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         return round(timeIntervalInSeconds)
     }
     
