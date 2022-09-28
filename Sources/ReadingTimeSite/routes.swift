@@ -1,6 +1,7 @@
 import Vapor
 import Plot
 import ReadingTime
+import Foundation
 
 let dateComponentsFormatter: DateComponentsFormatter = {
     var formatter = DateComponentsFormatter()
@@ -9,14 +10,27 @@ let dateComponentsFormatter: DateComponentsFormatter = {
     return formatter
 }()
 
+struct FormData: Codable {
+    let content: String
+}
+
 func routes(_ app: Application) throws {
-    app.get { request async throws -> HTML in
-        let content = try? request.query.get(String.self, at: "content")
-        var readingTime: String? = nil
-        if let content = content {
-            let calculation = ReadingTime.calculate(for: content)
-            readingTime = dateComponentsFormatter.string(from: calculation)
+    app.post { request async throws -> Response in
+        let formData = try request.content.decode(FormData.self)
+        let readingTime = ReadingTime.calculate(for: formData.content)
+        
+        let queryParam: String
+        if let readingTimeString = dateComponentsFormatter.string(from: readingTime) {
+            queryParam = "?readingTime=\(readingTimeString)"
+        } else {
+            queryParam = ""
         }
+        
+        return request.redirect(to: "/\(queryParam)")
+    }
+    
+    app.get { request async throws -> HTML in
+        let readingTime = try? request.query.get(String.self, at: "readingTime")
         
         return HTML(
             .head(
@@ -31,9 +45,9 @@ func routes(_ app: Application) throws {
                         "Reading Time Playground!"
                     ),
                     .form(
+                        .method(.post),
                         .id("playground"),
                         .textarea(
-                            "\(content ?? "")",
                             .placeholder("Enter your markdown here!"),
                             .name("content"),
                             .attribute(named: "form", value: "playground")
