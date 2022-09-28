@@ -11,14 +11,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  run-danger:
-    name: Run Danger
-    runs-on: macos-12
+  windows:
+    runs-on: windows-latest
     steps:
+    - uses: compnerd/gha-setup-swift@main
+      with:
+        branch: swift-5.5-release
+        tag: 5.5-RELEASE
     - uses: actions/checkout@v2
-    - name: Install danger-js
-      run: brew install danger/tap/danger-js
-    - run: swift run danger-swift ci --verbose --failOnErrors
-      if: ${{ github.event_name == 'pull_request' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: swift build
+  # run-danger:
+  #   name: Run Danger
+  #   runs-on: macos-12
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Install danger-js
+  #     run: brew install danger/tap/danger-js
+  #   - run: swift run danger-swift ci --verbose --failOnErrors
+  #     if: ${{ github.event_name == 'pull_request' }}
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
