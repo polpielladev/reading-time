@@ -49,6 +49,10 @@ let package = Package(
         .executableTarget(
             name: "ReadingTimeSiteRunner",
             dependencies: ["ReadingTimeSite"]
+        ),
+        .executableTarget(
+            name: "ReadingTimeCLI",
+            dependencies: ["ReadingTime"]
         )
     ]
 )
