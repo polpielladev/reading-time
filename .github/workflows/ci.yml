@@ -24,7 +24,7 @@ jobs:
       with:
         swift-version: "5.6.2"
     - name: Cross compile
-      run: swift build -c release --product ReadingTimeCLI --static-swift-stdlib --destination toolchain-focal-x86_64-5.6.2/destination_static.json
+      run: TOOLCHAINS=$(/usr/libexec/PlistBuddy -c "print :CFBundleIdentifier" /Users/runner/hostedtoolcache/swift-macOS/5.6.2/x64/Info.plist) swift build -c release --product ReadingTimeCLI --static-swift-stdlib --destination toolchain-focal-x86_64-5.6.2/destination_static.json
 
   run-danger:
     name: Run Danger
