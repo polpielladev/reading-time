@@ -12,6 +12,9 @@ let package = Package(
             name: "DangerDeps",
             type: .dynamic,
             targets: ["DangerDeps"]),
+        .executable(
+            name: "ReadingTimeCLI",
+            targets: ["ReadingTimeCLI"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
