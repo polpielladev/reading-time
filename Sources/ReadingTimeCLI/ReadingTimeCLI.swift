@@ -1,8 +1,8 @@
-//
-//  File.swift
-//  
-//
-//  Created by Pol Piella Abadia on 29/09/2022.
-//
+import ArgumentParser
 
-import Foundation
+@main
+struct ReadingTime: ParsableCommand {
+    func run() throws {
+        print("Hello World!")
+    }
+}

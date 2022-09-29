@@ -19,6 +19,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0"),
         .package(url: "https://github.com/danger/swift.git", from: "3.12.1"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.4")
     ],
     targets: [
         .target(
@@ -52,7 +53,7 @@ let package = Package(
         ),
         .executableTarget(
             name: "ReadingTimeCLI",
-            dependencies: ["ReadingTime"]
+            dependencies: ["ReadingTime", .product(name: "ArgumentParser", package: "swift-argument-parser")]
         )
     ]
 )
