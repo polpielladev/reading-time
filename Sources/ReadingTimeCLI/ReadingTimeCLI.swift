@@ -8,13 +8,6 @@ struct ReadingTimeCLI: ParsableCommand {
     var path: String
     
     func run() throws {
-        let dateFormatter: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.unitsStyle = .full
-            formatter.allowedUnits = [.minute, .second]
-            return formatter
-        }()
-        
         guard let cwd = URL(string: FileManager.default.currentDirectoryPath),
               let data = FileManager.default.contents(atPath: "\(cwd.path)/\(path)"),
               let contents = String(data: data, encoding: .utf8) else {
@@ -23,11 +16,26 @@ struct ReadingTimeCLI: ParsableCommand {
         
         let readingTime = ReadingTime.calculate(for: contents)
     
-        if let formattedString = dateFormatter.string(from: readingTime) {
+        if let formattedString = formattedString(from: readingTime) {
             print(formattedString)
         } else {
             print("\(readingTime) seconds")
         }
+    }
+    
+    func formattedString(from timeInterval: TimeInterval) -> String? {
+        #if !os(Linux)
+        let dateFormatter: DateComponentsFormatter = {
+            let formatter = DateComponentsFormatter()
+            formatter.unitsStyle = .full
+            formatter.allowedUnits = [.minute, .second]
+            return formatter
+        }()
+        
+        return dateFormatter.string(from: timeInterval)
+        #else
+        return nil
+        #endif
     }
 }
 
