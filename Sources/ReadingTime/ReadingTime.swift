@@ -30,6 +30,7 @@ public enum ReadingTime {
         return Self.calculate(for: string, wpm: wpm)
     }
     
+    #if !os(Linux)
     private static func count(wordsIn string: String) -> Int {
         var count = 0
         let range = string.startIndex..<string.endIndex
@@ -38,6 +39,15 @@ public enum ReadingTime {
         })
         return count
     }
+    #else
+    private static func count(wordsIn string: String) -> Int {
+        let chararacterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
+        let components = string.components(separatedBy: chararacterSet)
+        let words = components.filter { !$0.isEmpty }
+        
+        return words.count
+    }
+    #endif
 }
 
 // Some useful extensions to deal with removing emojis 🔝
