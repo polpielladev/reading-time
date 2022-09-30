@@ -150,7 +150,7 @@
       "location" : "https://github.com/apple/swift-cmark.git",
       "state" : {
         "branch" : "gfm",
-        "revision" : "476f7b4fcf12eba381b4aaed8987006fd8fcec9c"
+        "revision" : "eb9a6a357b6816c68f4b194eaa5b67f3cd1fa5c3"
       }
     },
     {
@@ -181,12 +181,12 @@
       }
     },
     {
-      "identity" : "swift-markdown",
+      "identity" : "swift-markdown-wasm",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-markdown.git",
+      "location" : "https://github.com/pol-piella/swift-markdown-wasm.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "52563fc74a540b29854fde20e836b27394be2749"
+        "branch" : "release/5.6",
+        "revision" : "737cf9a5ada0eca43b925c4d8cf4c065ba2422a3"
       }
     },
     {

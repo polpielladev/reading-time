@@ -8,10 +8,10 @@ let package = Package(
         .library(
             name: "ReadingTime",
             targets: ["ReadingTime"]),
-        .library(
-            name: "DangerDeps",
-            type: .dynamic,
-            targets: ["DangerDeps"]),
+//        .library(
+//            name: "DangerDeps",
+//            type: .dynamic,
+//            targets: ["DangerDeps"]),
         .executable(
             name: "ReadingTimeCLI",
             targets: ["ReadingTimeCLI"]),
@@ -20,18 +20,18 @@ let package = Package(
             targets: ["ReadingTimeWasm"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
+        .package(url: "https://github.com/pol-piella/swift-markdown-wasm.git", branch: "release/5.6"),
         .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.1.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0"),
         .package(url: "https://github.com/danger/swift.git", from: "3.12.1"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.4"),
-        .package(url: "https://github.com/swiftwasm/JavaScriptKit", from: "0.16.0"),
+        .package(url: "https://github.com/swiftwasm/JavaScriptKit", from: "0.15.0")
     ],
     targets: [
         .target(
             name: "ReadingTime",
-            dependencies: [.product(name: "Markdown", package: "swift-markdown")]),
+            dependencies: [.product(name: "Markdown", package: "swift-markdown-wasm")]),
         .testTarget(
             name: "ReadingTimeTests",
             dependencies: ["ReadingTime"],
@@ -64,7 +64,7 @@ let package = Package(
         ),
         .executableTarget(
             name: "ReadingTimeWasm", dependencies: [
-                "JavaScriptKit",
+                .product(name: "JavaScriptKit", package: "JavaScriptKit"),
                 "ReadingTime"
             ]
         ),

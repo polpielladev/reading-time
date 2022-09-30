@@ -7,8 +7,12 @@ public enum ReadingTimeError: Error {
 
 public enum ReadingTime {
     public static func calculate(for content: String, wpm: Int = 200) -> TimeInterval {
+        #if !arch(wasm32)
         let rewrittenMarkdown = MarkdownRewriter(text: content)
             .rewrite()
+        #else
+        let rewrittenMarkdown = content
+        #endif
         let contentWithoutEmojis = rewrittenMarkdown.removingEmoji
         let timeIntervalInMinutes = Double(count(wordsIn: contentWithoutEmojis)) / Double(wpm)
         let timeIntervalInSeconds = timeIntervalInMinutes * 60
@@ -16,6 +20,7 @@ public enum ReadingTime {
         return round(timeIntervalInSeconds)
     }
     
+    #if !arch(wasm32)
     public static func calculate(for file: URL, wpm: Int = 200) throws -> TimeInterval {
         if !FileManager.default.fileExists(atPath: file.path) {
             throw ReadingTimeError.fileNotFound
@@ -29,8 +34,9 @@ public enum ReadingTime {
         
         return Self.calculate(for: string, wpm: wpm)
     }
+    #endif
     
-    #if !os(Linux)
+    #if !os(Linux) && !arch(wasm32)
     private static func count(wordsIn string: String) -> Int {
         var count = 0
         let range = string.startIndex..<string.endIndex
