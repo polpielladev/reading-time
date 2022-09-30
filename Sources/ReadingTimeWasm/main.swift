@@ -1,14 +1,14 @@
 import JavaScriptKit
-import Foundation
 import ReadingTime
 
 let document = JSObject.global.document
 
-var button = document.createElement("button")
-button.innerText = "Hello, world"
-button.onclick = .object(JSClosure { _ in
-    print(ReadingTime.calculate(for: "Hello World mate!!!"))
-})
-_ = document.body.appendChild(button)
+var readingTimeButton = document.querySelector("#reading-time-calculate")
 
-_ = JSObject.global.alert!("Swift is running in the browser!")
+readingTimeButton.onclick = .object(JSClosure { _ in
+    let document = JSObject.global.document
+    let element = document.querySelector("#reading-time-content")
+    let text = element.value.string
+    print(ReadingTime.calculate(for: text ?? ""))
+    return .null
+})

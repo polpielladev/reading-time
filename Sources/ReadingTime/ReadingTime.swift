@@ -7,8 +7,13 @@ public enum ReadingTimeError: Error {
 
 public enum ReadingTime {
     public static func calculate(for content: String, wpm: Int = 200) -> TimeInterval {
+        // This doesn't work because of its use of Pthreads...
+        #if !arch(wasm32)
         let rewrittenMarkdown = MarkdownRewriter(text: content)
             .rewrite()
+        #else
+        let rewrittenMarkdown = content
+        #endif
         let contentWithoutEmojis = rewrittenMarkdown.removingEmoji
         let timeIntervalInMinutes = Double(count(wordsIn: contentWithoutEmojis)) / Double(wpm)
         let timeIntervalInSeconds = timeIntervalInMinutes * 60
