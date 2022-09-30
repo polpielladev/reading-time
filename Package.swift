@@ -14,7 +14,10 @@ let package = Package(
             targets: ["DangerDeps"]),
         .executable(
             name: "ReadingTimeCLI",
-            targets: ["ReadingTimeCLI"])
+            targets: ["ReadingTimeCLI"]),
+        .executable(
+            name: "ReadingTimeWasm",
+            targets: ["ReadingTimeWasm"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
@@ -22,7 +25,8 @@ let package = Package(
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0"),
         .package(url: "https://github.com/danger/swift.git", from: "3.12.1"),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.4")
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.4"),
+        .package(url: "https://github.com/swiftwasm/JavaScriptKit", from: "0.16.0"),
     ],
     targets: [
         .target(
@@ -57,6 +61,12 @@ let package = Package(
         .executableTarget(
             name: "ReadingTimeCLI",
             dependencies: ["ReadingTime", .product(name: "ArgumentParser", package: "swift-argument-parser")]
-        )
+        ),
+        .executableTarget(
+            name: "ReadingTimeWasm", dependencies: [
+                "JavaScriptKit",
+                "ReadingTime"
+            ]
+        ),
     ]
 )
