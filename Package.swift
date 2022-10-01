@@ -38,7 +38,7 @@ let package = Package(
             .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
             .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
             "ReadingTime"
-        ]),
+        ], exclude: ["Scripts"]),
         .target(
             name: "ReadingTimeSite",
             dependencies: [
