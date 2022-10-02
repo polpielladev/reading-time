@@ -30,7 +30,7 @@ public enum ReadingTime {
         return Self.calculate(for: string, wpm: wpm)
     }
     
-    #if !os(Linux)
+    #if !os(Linux) && !os(Windows)
     private static func count(wordsIn string: String) -> Int {
         var count = 0
         let range = string.startIndex..<string.endIndex

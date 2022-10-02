@@ -24,7 +24,7 @@ struct ReadingTimeCLI: ParsableCommand {
     }
     
     func formattedString(from timeInterval: TimeInterval) -> String? {
-        #if !os(Linux)
+        #if !os(Linux) && !os(Windows)
         let dateFormatter: DateComponentsFormatter = {
             let formatter = DateComponentsFormatter()
             formatter.unitsStyle = .full
