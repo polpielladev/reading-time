@@ -23,7 +23,7 @@ jobs:
       - run: git config --global core.protectNTFS false
       - run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
       - run: cmd /r dir /s /b /o:gn
-      - run: cmd /r cp .build\release\ReadingTimeCLI.exe ReadingTimeCLI.exe
+      - run: cp .build\release\ReadingTimeCLI.exe ReadingTimeCLI.exe
       - uses: actions/upload-artifact@v3
         with:
           name: ReadingTimeCLI-windows.exe
