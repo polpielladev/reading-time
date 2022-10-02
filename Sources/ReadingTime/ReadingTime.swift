@@ -30,7 +30,15 @@ public enum ReadingTime {
         return Self.calculate(for: string, wpm: wpm)
     }
     
-    #if !os(Linux)
+    #if os(Linux) || !os(Windows)
+    private static func count(wordsIn string: String) -> Int {
+        let chararacterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
+        let components = string.components(separatedBy: chararacterSet)
+        let words = components.filter { !$0.isEmpty }
+        
+        return words.count
+    }
+    #else
     private static func count(wordsIn string: String) -> Int {
         var count = 0
         let range = string.startIndex..<string.endIndex
@@ -38,14 +46,6 @@ public enum ReadingTime {
             count += 1
         })
         return count
-    }
-    #else
-    private static func count(wordsIn string: String) -> Int {
-        let chararacterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
-        let components = string.components(separatedBy: chararacterSet)
-        let words = components.filter { !$0.isEmpty }
-        
-        return words.count
     }
     #endif
 }
