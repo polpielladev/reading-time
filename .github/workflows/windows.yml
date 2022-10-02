@@ -26,4 +26,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ReadingTimeCLI-windows.exe
-          path: D:\a\reading-time\reading-time\.build\release\ReadingTimeCLI.exe
+          path: \.build\release\ReadingTimeCLI.exe
