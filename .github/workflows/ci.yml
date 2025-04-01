@@ -34,14 +34,14 @@ jobs:
 
   windows-test:
     name: Test on Windows
-    runs-on: windows-2022
+    runs-on: windows-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.8-release
-          tag: 5.8-RELEASE
+          branch: swift-6.1-release
+          tag: 6.1-RELEASE
       - run: git config --global core.protectNTFS false
       - name: Run swift test
         run: swift test
