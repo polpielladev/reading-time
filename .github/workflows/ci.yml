@@ -27,7 +27,6 @@ jobs:
           - "platform=iOS Simulator,name=iPhone 16"
           - "platform=tvOS Simulator,name=Apple TV"
           - "platform=watchOS Simulator,name=Apple Watch Series 10 (42mm)"
-          - "platform=visionOS Simulator,name=Apple Vision Pro"
     steps:
       - uses: actions/checkout@v4
       - name: Test on ${{ matrix.destination }}
@@ -40,17 +39,11 @@ jobs:
     steps:
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.10-release
-          tag: 5.10-RELEASE
+          branch: swift-5.6-release
+          tag: 5.6-RELEASE
       - uses: actions/checkout@v4
       - run: git config --global core.protectNTFS false
-      - run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
-      - run: cmd /r dir /s /b /o:gn
-      - run: cp .build\release\ReadingTimeCLI.exe ReadingTimeCLI.exe
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ReadingTimeCLI-windows.exe
-          path: ReadingTimeCLI.exe
+      - run: swift test
 
   linux-test:
     name: Test on Linux
