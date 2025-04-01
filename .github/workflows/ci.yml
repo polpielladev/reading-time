@@ -20,14 +20,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install danger-js
         run: brew install danger/tap/danger-js
-      - run: swift run danger-swift ci --verbose --failOnErrors
-        if: ${{ github.event_name == 'pull_request' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Swiftly
         uses: vapor/swiftly-action@v0.2.0
         with:
           toolchain: latest
+      - run: swift run danger-swift ci --verbose --failOnErrors
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Test
         run: swift test
 
