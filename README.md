@@ -1,6 +1,8 @@
 # ReadingTime
 
-A small and light-weight package to get reading time information from a given **markdown file**. This is a tool made for writers that want to analyse the time it takes their readers to go through their articles.
+A small and light-weight package to get reading time information from a given **markdown file**.
+
+This is a tool made for writers that want to analyse the time it takes their readers to go through their articles.
 
 ## Installation
 
@@ -30,14 +32,14 @@ It is important to note that the calculation does not count emojis as words, mar
 
 ### Calculating reading time for a string
 
-To calculate the reading time for a given string, use the `calculate(for content:wpm:)` method in `ReadingTime`. This takes in two parameters: the `String` to be parsed and the words per minute to use for the calculation. The latter defaults to `200`. 
+To calculate the reading time for a given string, use the `calculate(for content:wpm:)` method in `ReadingTime`. This takes in two parameters: the `String` to be parsed and the words per minute to use for the calculation. The latter defaults to `200`.
 
 ```swift
 let contents = "👋 Hello World! 🌍 This is my article! 🗞"
 let calculatedTime = ReadingTime.calculate(for: contents) // Returns a TimeInterval type in seconds
 ```
 
-### Calculating reading time for a file 
+### Calculating reading time for a file
 
 To calculate the reading time for a markdown file, use the `calculate(for file:wpm:)` method in `ReadingTime`. This takes in two parameters: the `URL` to the file that is to be parsed and the words per minute to use for the calculation. The latter defaults to `200`.
 
@@ -50,6 +52,6 @@ let calculatedTime = try ReadingTime.calculate(for: fileURL)
 
 ## Other notes
 
-* 🤗 This package is completely open-source.
-* 🐛 If you notice any bugs or have any feature requests please file an issue.
-* ✍️ If you want to support me (the author of this package), feel free to follow me on [twitter](https://pol.link/twitter)! 
+- 🤗 This package is completely open-source.
+- 🐛 If you notice any bugs or have any feature requests please file an issue.
+- ✍️ If you want to support me (the author of this package), feel free to follow me on [twitter](https://pol.link/twitter)!
