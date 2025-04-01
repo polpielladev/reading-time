@@ -2,6 +2,8 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -30,8 +32,8 @@ jobs:
     steps:
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.6-release
-          tag: 5.6-RELEASE
+          branch: swift-6.0-release
+          tag: 6.0-RELEASE
       - uses: actions/checkout@v4
       - run: git config --global core.protectNTFS false
       - run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
@@ -41,9 +43,10 @@ jobs:
         with:
           name: ReadingTimeCLI-windows.exe
           path: ReadingTimeCLI.exe
+
   build-executables:
-    name: Run Danger
-    runs-on: macos-12
+    name: Build Executables
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install cross-compiler tool
