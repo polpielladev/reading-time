@@ -2,6 +2,8 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -11,47 +13,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  run-danger:
-    name: Run Danger
-    runs-on: macos-12
+  macos-test:
+    name: Test on macOS
+    runs-on: macOS-15
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app
+    strategy:
+      matrix:
+        destination:
+          - "platform=macOS"
+          - "platform=macOS,variant=Mac Catalyst"
+          - "platform=iOS Simulator,name=iPhone 16"
+          - "platform=tvOS Simulator,name=Apple TV"
+          - "platform=watchOS Simulator,name=Apple Watch Series 10 (42mm)"
     steps:
-    - uses: actions/checkout@v2
-    - name: Install danger-js
-      run: brew install danger/tap/danger-js
-    - run: swift test
-    - run: swift run danger-swift ci --verbose --failOnErrors
-      if: ${{ github.event_name == 'pull_request' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - name: Test on ${{ matrix.destination }}
+        run: set -o pipefail && xcodebuild -scheme ReadingTime-Package -destination "${{ matrix.destination }}" test | xcbeautify
 
-  build-windows-executable:
-    name: Build Windows Executable
+  windows-test:
+    name: Test on Windows
     runs-on: windows-latest
+    timeout-minutes: 30
     steps:
+      - uses: actions/checkout@v4
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.6-release
-          tag: 5.6-RELEASE
-      - uses: actions/checkout@v2
+          branch: swift-6.1-release
+          tag: 6.1-RELEASE
       - run: git config --global core.protectNTFS false
-      - run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
-      - run: cmd /r dir /s /b /o:gn
-      - run: cp .build\release\ReadingTimeCLI.exe ReadingTimeCLI.exe
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ReadingTimeCLI-windows.exe
-          path: ReadingTimeCLI.exe
-  build-executables:
-    name: Run Danger
-    runs-on: macos-12
+      - name: Run swift test
+        run: swift test
+        shell: cmd
+
+  linux-test:
+    name: Test on Linux
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v2
-    - name: Install cross-compiler tool
-      run: brew install keith/formulae/swiftpm-linux-cross
-    - name: Setup toolchain
-      run: setup-swiftpm-toolchain --ubuntu-release focal --arch x86_64 --swift-version 5.6.2
-    - uses: swift-actions/setup-swift@v1
-      with:
-        swift-version: "5.6.2"
-    - name: Cross compile
-      run: TOOLCHAINS=$(/usr/libexec/PlistBuddy -c "print :CFBundleIdentifier" /Users/runner/hostedtoolcache/swift-macOS/5.6.2/x64/Info.plist) swift build -c release --product ReadingTimeCLI --static-swift-stdlib --destination toolchain-focal-x86_64-5.6.2/destination_static.json
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Swiftly
+        uses: vapor/swiftly-action@v0.2.0
+        with:
+          toolchain: latest
+      - name: Test
+        run: swift test
