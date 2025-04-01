@@ -45,7 +45,6 @@ jobs:
       - run: git config --global core.protectNTFS false
       - name: Run swift test
         run: swift test
-        shell: cmd
 
   linux-test:
     name: Test on Linux
