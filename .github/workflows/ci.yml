@@ -43,7 +43,9 @@ jobs:
           branch: swift-5.8-release
           tag: 5.8-RELEASE
       - run: git config --global core.protectNTFS false
-      - run: swift test
+      - name: Run swift test
+        run: swift test
+        shell: cmd
 
   linux-test:
     name: Test on Linux
