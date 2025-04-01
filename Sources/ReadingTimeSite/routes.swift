@@ -3,13 +3,14 @@ import Plot
 import ReadingTime
 import Foundation
 
+#if !os(Linux) && !os(Windows)
 let dateComponentsFormatter: DateComponentsFormatter = {
     var formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.minute, .second]
     formatter.unitsStyle = .abbreviated
     return formatter
 }()
-
+#endif
 struct FormData: Codable {
     let content: String
 }
@@ -20,11 +21,15 @@ func routes(_ app: Application) throws {
         let readingTime = ReadingTime.calculate(for: formData.content)
         
         let queryParam: String
+        #if !os(Linux) && !os(Windows)
         if let readingTimeString = dateComponentsFormatter.string(from: readingTime) {
             queryParam = "?readingTime=\(readingTimeString)"
         } else {
-            queryParam = ""
+            queryParam = "?readingTime=\(readingTime) seconds"
         }
+        #else
+        queryParam = "?readingTime=\(readingTime) seconds"
+        #endif
         
         return request.redirect(to: "/\(queryParam)")
     }
