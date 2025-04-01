@@ -3,9 +3,6 @@ import PackageDescription
 
 var dependencies: [Package.Dependency] = [
     .package(url: "https://github.com/apple/swift-markdown.git", branch: "main"),
-    .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.1.0"),
-    .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
-    .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0"),
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.1.4")
 ]
 
@@ -18,6 +15,14 @@ var targets: [Target] = [
         dependencies: ["ReadingTime"],
         resources: [.copy("MockData")]
     ),
+    .executableTarget(
+        name: "ReadingTimeCLI",
+        dependencies: ["ReadingTime", .product(name: "ArgumentParser", package: "swift-argument-parser")]
+    )
+]
+
+#if !os(Windows)
+targets.append(contentsOf: [
     .executableTarget(name: "ReadingTimeLambda", dependencies: [
         .product(name: "AWSLambdaRuntime", package: "swift-aws-lambda-runtime"),
         .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
@@ -38,11 +43,13 @@ var targets: [Target] = [
         name: "ReadingTimeSiteRunner",
         dependencies: ["ReadingTimeSite"]
     ),
-    .executableTarget(
-        name: "ReadingTimeCLI",
-        dependencies: ["ReadingTime", .product(name: "ArgumentParser", package: "swift-argument-parser")]
-    )
-]
+])
+dependencies.append(contentsOf: [
+    .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", from: "0.1.0"),
+    .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
+    .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.5.0"),
+])
+#endif
 
 var products: [Product] = [
     .library(
