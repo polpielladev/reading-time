@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   macos-test:
-    name: Test on macOS
+    name: Generate macOS Executable
     runs-on: macOS-15
     timeout-minutes: 30
     env:
@@ -24,11 +24,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reading-time-macos
-          path: .build/release/ReadingTimeCLI
+          path: .build/apple/Products/Release/ReadingTimeCLI
           retention-days: 1
 
   windows-test:
-    name: Test on Windows
+    name: Generate Windows Executable
     runs-on: windows-latest
     timeout-minutes: 30
     steps:
@@ -48,7 +48,7 @@ jobs:
           retention-days: 1
 
   linux-test:
-    name: Test on Linux
+    name: Generate Linux Executable
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
