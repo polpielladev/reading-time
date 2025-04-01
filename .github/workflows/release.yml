@@ -1,0 +1,110 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  macos-test:
+    name: Test on macOS
+    runs-on: macOS-15
+    timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create macOS executable
+        run: swift build -c release --arch arm64 --arch x86_64 --product ReadingTimeCLI
+      - name: Upload macOS executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: reading-time-macos
+          path: .build/release/ReadingTimeCLI
+          retention-days: 1
+
+  windows-test:
+    name: Test on Windows
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-6.1-release
+          tag: 6.1-RELEASE
+      - run: git config --global core.protectNTFS false
+      - name: Create Windows executable
+        run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: reading-time-windows
+          path: .build\release\ReadingTimeCLI.exe
+          retention-days: 1
+
+  linux-test:
+    name: Test on Linux
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Swiftly
+        uses: vapor/swiftly-action@v0.2.0
+        with:
+          toolchain: latest
+      - name: Create Linux executable
+        run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
+      - name: Upload Linux executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: reading-time-linux
+          path: .build/release/ReadingTimeCLI
+          retention-days: 1
+
+  collect-executables:
+    name: Collect Executables
+    needs: [macos-test, windows-test, linux-test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download macOS executable
+        uses: actions/download-artifact@v4
+        with:
+          name: reading-time-macos
+          path: executables/macos
+
+      - name: Download Windows executable
+        uses: actions/download-artifact@v4
+        with:
+          name: reading-time-windows
+          path: executables/windows
+
+      - name: Download Linux executable
+        uses: actions/download-artifact@v4
+        with:
+          name: reading-time-linux
+          path: executables/linux
+
+      - name: Zip executables
+        run: |
+          cd executables
+          zip -j reading-time-macos.zip macos/ReadingTimeCLI
+          zip -j reading-time-windows.zip windows/ReadingTimeCLI.exe
+          zip -j reading-time-linux.zip linux/ReadingTimeCLI
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            executables/reading-time-macos.zip
+            executables/reading-time-windows.zip
+            executables/reading-time-linux.zip
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
