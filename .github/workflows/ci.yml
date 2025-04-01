@@ -32,8 +32,8 @@ jobs:
     steps:
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.0-release
-          tag: 6.0-RELEASE
+          branch: swift-5.10.1-release
+          tag: 5.10-RELEASE
       - uses: actions/checkout@v4
       - run: git config --global core.protectNTFS false
       - run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
@@ -44,17 +44,16 @@ jobs:
           name: ReadingTimeCLI-windows.exe
           path: ReadingTimeCLI.exe
 
-  build-executables:
-    name: Build Executables
-    runs-on: macos-latest
+  linux_test:
+    name: Test Linux
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - name: Install cross-compiler tool
-        run: brew install keith/formulae/swiftpm-linux-cross
-      - name: Setup toolchain
-        run: setup-swiftpm-toolchain --ubuntu-release focal --arch x86_64 --swift-version 5.6.2
-      - uses: swift-actions/setup-swift@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Swiftly
+        uses: vapor/swiftly-action@v0.1.4
         with:
-          swift-version: "5.6.2"
-      - name: Cross compile
-        run: TOOLCHAINS=$(/usr/libexec/PlistBuddy -c "print :CFBundleIdentifier" /Users/runner/hostedtoolcache/swift-macOS/5.6.2/x64/Info.plist) swift build -c release --product ReadingTimeCLI --static-swift-stdlib --destination toolchain-focal-x86_64-5.6.2/destination_static.json
+          toolchain: latest
+      - name: Test
+        run: swift test
