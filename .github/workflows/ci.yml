@@ -14,20 +14,25 @@ concurrency:
 
 jobs:
   run-danger:
-    name: Run Danger
+    name: Run Danger and Test on macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install danger-js
         run: brew install danger/tap/danger-js
-      - run: swift test
       - run: swift run danger-swift ci --verbose --failOnErrors
         if: ${{ github.event_name == 'pull_request' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Swiftly
+        uses: vapor/swiftly-action@v0.2.0
+        with:
+          toolchain: latest
+      - name: Test
+        run: swift test
 
-  build-windows-executable:
-    name: Build Windows Executable
+  test-windows:
+    name: Test on Windows
     runs-on: windows-latest
     steps:
       - uses: compnerd/gha-setup-swift@main
@@ -36,16 +41,10 @@ jobs:
           tag: 5.10-RELEASE
       - uses: actions/checkout@v4
       - run: git config --global core.protectNTFS false
-      - run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
-      - run: cmd /r dir /s /b /o:gn
-      - run: cp .build\release\ReadingTimeCLI.exe ReadingTimeCLI.exe
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ReadingTimeCLI-windows.exe
-          path: ReadingTimeCLI.exe
+      - run: swift test
 
-  linux_test:
-    name: Test Linux
+  test-linux:
+    name: Test on Linux
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
