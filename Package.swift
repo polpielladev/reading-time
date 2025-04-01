@@ -53,15 +53,9 @@ var products: [Product] = [
         targets: ["ReadingTimeCLI"])
 ]
 
-#if !os(Windows)
-dependencies.append(.package(url: "https://github.com/danger/swift.git", from: "3.12.1"))
-targets.append(.target(name: "DangerDeps", dependencies: [.product(name: "Danger", package: "swift")]))
-products.append(.library(name: "DangerDeps", type: .dynamic, targets: ["DangerDeps"]))
-#endif
-
 let package = Package(
     name: "ReadingTime",
-    platforms: [.iOS(.v8), .macOS(.v12)],
+    platforms: [.iOS(.v15), .macOS(.v12), .macCatalyst(.v15)],
     products: products,
     dependencies: dependencies,
     targets: targets
