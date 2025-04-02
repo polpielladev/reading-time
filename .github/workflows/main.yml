@@ -13,7 +13,18 @@ jobs:
     name: Test on macOS
     runs-on: macOS-15
     timeout-minutes: 30
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app
+    strategy:
+      matrix:
+        platform:
+          - "platform=macOS"
+          - "platform=macOS,variant=Mac Catalyst"
+          - "platform=iOS Simulator,name=iPhone 16"
+          - "platform=tvOS Simulator,name=Apple TV"
+          - "platform=watchOS Simulator,name=Apple Watch Series 10 (42mm)"
+
     steps:
       - uses: actions/checkout@v4
-      - name: Run unit tests for Swift package
-        run: swift test
+      - name: Run unit tests on ${{ matrix.platform }} for Swift package
+        run: set -o pipefail && xcodebuild -scheme ReadingTime-Package -destination "${{ matrix.platform }}" test | xcbeautify
