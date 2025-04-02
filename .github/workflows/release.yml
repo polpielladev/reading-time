@@ -40,3 +40,34 @@ jobs:
           name: reading-time-linux
           path: .build/release/ReadingTimeCLI
           retention-days: 1
+
+  collect-executables:
+    name: Collect Executables and Create GitHub Release
+    needs: [release-macos, release-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download macOS Executable
+        uses: actions/download-artifact@v4
+        with:
+          name: reading-time-macos
+          path: executables/macos
+      - name: Download Linux executable
+        uses: actions/download-artifact@v4
+        with:
+          name: reading-time-linux
+          path: executables/linux
+      - name: Zip executables
+        run: |
+          cd executables
+          zip -j reading-time-macos.zip macos/ReadingTimeCLI
+          zip -j reading-time-linux.zip linux/ReadingTimeCLI
+      - name: Create a GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            executables/reading-time-macos.zip
+            executables/reading-time-linux.zip
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
