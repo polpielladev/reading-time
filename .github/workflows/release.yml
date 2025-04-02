@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release-macos:
+    name: Generate macOS executable
+    runs-on: macOS-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create macOS Executable
+        run: swift build -c release --arch arm64 --arch x86_64 --product  ReadingTimeCLI
+      - name: Upload macOS executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: reading-time-macos
+          path: .build/apple/Products/Release/ReadingTimeCLI
+          retention-days: 1
+
+  release-linux:
+    name: Generate Linux Executable
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Swiftly
+        uses: vapor/swiftly-action@v0.2.0
+        with:
+          toolchain: latest
+      - name: Create Linux executable
+        run: swift build -c release --static-swift-stdlib --product ReadingTimeCLI
+      - name: Upload Linux executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: reading-time-linux
+          path: .build/release/ReadingTimeCLI
+          retention-days: 1
